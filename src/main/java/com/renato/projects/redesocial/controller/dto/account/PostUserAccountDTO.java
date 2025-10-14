@@ -13,7 +13,7 @@ public record PostUserAccountDTO(
 	
 		public UserAccount toModel() {
 			UserAccount userAccount = new UserAccount(userName, password);
-			userAccount.addProfile(profile.toModel(userAccount));
+			userAccount.setProfile(profile.toModel(userAccount));
 			return userAccount;
 		}
 

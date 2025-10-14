@@ -11,7 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,8 +39,8 @@ public class UserProfile {
 	private Gender gender;
 	private Boolean active;
 	private String bio;
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@OneToOne
+	@JoinColumn(name = "user_account_id", unique = true)
 	private UserAccount userAccount;
 
 	public UserProfile(String name, String nickname, LocalDate birthDate, Gender gender, UserAccount userAccount) {

@@ -34,6 +34,7 @@ public class AuthController {
 
 	@PostMapping
 	public ResponseEntity<?> login(@RequestBody AuthDTO authDTO, HttpServletResponse response) {
+		System.out.println("login");
 		String token = authService.login(authDTO).token();
 		ResponseCookie cookie = ResponseCookie.from("token", token)
 				.httpOnly(true)
@@ -46,6 +47,7 @@ public class AuthController {
 
 	@GetMapping("/check")
 	public ResponseEntity<Void> check(@CookieValue(name = "token", required = false) String token) {
+		System.out.println("check");
 		if (token != null && !token.isEmpty()) {
 			String subject = tokenService.validateToken(token);
 
@@ -58,6 +60,7 @@ public class AuthController {
 	
 	@PostMapping("/logout")
 	public ResponseEntity<?> logout(HttpServletResponse response) {
+		System.out.println("logout");
 		ResponseCookie cookie = ResponseCookie.from("token", "").httpOnly(true).secure(true).path("/").maxAge(0)
 				.build();
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("Logout realizado");

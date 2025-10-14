@@ -9,9 +9,9 @@ CREATE TABLE public.user_account
     CONSTRAINT user_account_pkey PRIMARY KEY (id),
     CONSTRAINT user_account_email_verification_id_key UNIQUE (email_verification_id),
     CONSTRAINT user_account_user_name_key UNIQUE (user_name),
-    CONSTRAINT fk_user_account_email_verification FOREIGN KEY (email_verification_id)
+    CONSTRAINT fk_user_account_email_verification_id FOREIGN KEY (email_verification_id)
         REFERENCES public.email_verification (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT user_account_role_check CHECK (role >= 0 AND role <= 1)
-)
+);

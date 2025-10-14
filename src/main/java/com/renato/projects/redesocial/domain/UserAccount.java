@@ -1,6 +1,5 @@
 package com.renato.projects.redesocial.domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -20,9 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
 
 @Entity()
 public class UserAccount implements UserDetails {
@@ -39,11 +36,9 @@ public class UserAccount implements UserDetails {
 	@JoinColumn(name = "email_verification_id", referencedColumnName = "id")
 	private EmailVerification emailVerification;
 	private Boolean confirmacaoEmail;
-	@OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<UserProfile> profiles;
+	@OneToOne(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private UserProfile profile;
 
-	
-	
 	public EmailVerification getEmailVerification() {
 		return emailVerification;
 	}
@@ -80,7 +75,7 @@ public class UserAccount implements UserDetails {
 	public UserRole getRole() {
 		return role;
 	}
-	
+
 	public void confirmarEmail() {
 		this.confirmacaoEmail = true;
 	}
@@ -90,12 +85,8 @@ public class UserAccount implements UserDetails {
 		return Objects.hash(id);
 	}
 
-	public void addProfile(UserProfile profile) {
-	    if (profiles == null) {
-	        profiles = new ArrayList<>();
-	    }
-	    //profile.setUserAccount(this); // garante o relacionamento bidirecional
-	    profiles.add(profile);
+	public void setProfile(UserProfile profile) {
+		this.profile = profile;
 	}
 
 	@Override
