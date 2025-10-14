@@ -1,0 +1,3 @@
+ALTER TABLE public.user_profile
+ADD COLUMN nickname VARCHAR(50) NOT NULL UNIQUE,
+ADD COLUMN gender VARCHAR(50)
