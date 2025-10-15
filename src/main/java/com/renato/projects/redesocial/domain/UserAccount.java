@@ -75,6 +75,10 @@ public class UserAccount implements UserDetails {
 	public UserRole getRole() {
 		return role;
 	}
+	
+	public UserProfile getProfile() {
+		return profile;
+	}
 
 	public void confirmarEmail() {
 		this.confirmacaoEmail = true;
