@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.renato.projects.redesocial.domain.enums.Gender;
+import com.renato.projects.redesocial.domain.enums.Visibility;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -29,7 +32,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-
+@ToString
 public class UserProfile {
 
 	@Id
@@ -37,6 +40,7 @@ public class UserProfile {
 	@EqualsAndHashCode.Include
 	private Long id;
 	private String name;
+	@Column(unique = true, nullable = false)
 	private String nickname;
 	private LocalDate birthDate;
 	private String photoUrl;
@@ -44,6 +48,8 @@ public class UserProfile {
 	private Gender gender;
 	private Boolean active;
 	private String bio;
+	@Enumerated(EnumType.STRING)
+	private Visibility visibility ;
 	
 	@OneToMany(mappedBy = "initiator", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Connection> connectionsInitiated = new HashSet<>();
@@ -64,5 +70,6 @@ public class UserProfile {
 		this.gender = gender;
 		this.userAccount = userAccount;
 		this.active = true;
+		this.visibility = Visibility.PUBLIC;
 	}
 }

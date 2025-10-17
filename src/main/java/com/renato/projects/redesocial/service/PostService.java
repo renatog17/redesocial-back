@@ -3,7 +3,7 @@ package com.renato.projects.redesocial.service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.renato.projects.redesocial.controller.dto.PostPostDTO;
+import com.renato.projects.redesocial.controller.dto.post.PostPostDTO;
 import com.renato.projects.redesocial.domain.Post;
 import com.renato.projects.redesocial.domain.UserAccount;
 import com.renato.projects.redesocial.repository.PostRepository;

@@ -3,12 +3,15 @@ package com.renato.projects.redesocial.service;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.renato.projects.redesocial.controller.dto.account.PostUserAccountDTO;
 import com.renato.projects.redesocial.domain.UserAccount;
+import com.renato.projects.redesocial.domain.UserProfile;
 import com.renato.projects.redesocial.repository.UserAccountRepository;
 
 @Service
@@ -27,6 +30,12 @@ public class UserAccountService {
 			throw new ResponseStatusException(HttpStatus.CONFLICT);
 		}
 		return userAccountRepository.save(postUserAccountDTO.toModel());
+	}
+	
+	public UserProfile getCurrentUserProfile() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+		return userAccount.getProfile();
 	}
 
 }

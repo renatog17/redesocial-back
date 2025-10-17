@@ -1,5 +1,6 @@
 package com.renato.projects.redesocial.controller.dto.account;
 
+import com.renato.projects.redesocial.controller.dto.userprofile.PostUserProfileDTO;
 import com.renato.projects.redesocial.domain.UserAccount;
 
 import jakarta.validation.constraints.NotBlank;

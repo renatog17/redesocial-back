@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.renato.projects.redesocial.controller.dto.PostPostDTO;
+import com.renato.projects.redesocial.controller.dto.post.PostPostDTO;
 import com.renato.projects.redesocial.service.PostService;
 
 @RequestMapping("/post")

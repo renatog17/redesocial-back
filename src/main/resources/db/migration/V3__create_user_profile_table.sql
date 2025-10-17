@@ -9,11 +9,18 @@ CREATE TABLE public.user_profile
     name character varying(255) COLLATE pg_catalog."default",
     nickname character varying(255) COLLATE pg_catalog."default",
     photo_url character varying(255) COLLATE pg_catalog."default",
+    visibility character varying(50) COLLATE pg_catalog."default" DEFAULT 'PUBLIC',
     CONSTRAINT user_profile_pkey PRIMARY KEY (id),
     CONSTRAINT user_profile_user_account_id_key UNIQUE (user_account_id),
+    CONSTRAINT user_profile_nickname_key UNIQUE (nickname),
     CONSTRAINT fk_user_profile_user_account_id FOREIGN KEY (user_account_id)
         REFERENCES public.user_account (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT user_profile_gender_check CHECK (gender::text = ANY (ARRAY['MALE'::character varying, 'FEMALE'::character varying, 'NON_BINARY'::character varying, 'TRANSGENDER'::character varying, 'AGENDER'::character varying, 'GENDERFLUID'::character varying, 'PREFER_NOT_TO_SAY'::character varying, 'OTHER'::character varying]::text[]))
+    CONSTRAINT user_profile_gender_check CHECK (gender::text = ANY (ARRAY['MALE'::character varying, 'FEMALE'::character varying, 'NON_BINARY'::character varying, 'TRANSGENDER'::character varying, 'AGENDER'::character varying, 'GENDERFLUID'::character varying, 'PREFER_NOT_TO_SAY'::character varying, 'OTHER'::character varying]::text[])),
+    CONSTRAINT user_profile_visibility_check CHECK (
+        visibility::text = ANY (
+            ARRAY['PUBLIC'::character varying, 'FRIENDS_ONLY'::character varying]::text[]
+        )
+    )
 );

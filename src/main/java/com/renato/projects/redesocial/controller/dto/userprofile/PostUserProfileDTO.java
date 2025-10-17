@@ -1,4 +1,4 @@
-package com.renato.projects.redesocial.controller.dto.account;
+package com.renato.projects.redesocial.controller.dto.userprofile;
 
 import java.time.LocalDate;
 

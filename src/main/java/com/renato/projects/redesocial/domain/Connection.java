@@ -26,25 +26,32 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Connection {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "initiator_id", nullable = false)
-    private UserProfile initiator; // quem enviou a solicitação
+	@ManyToOne
+	@JoinColumn(name = "initiator_id", nullable = false)
+	private UserProfile initiator; // quem enviou a solicitação
 
-    @ManyToOne
-    @JoinColumn(name = "friend_id", nullable = false)
-    private UserProfile friend; // quem recebeu a solicitação
+	@ManyToOne
+	@JoinColumn(name = "friend_id", nullable = false)
+	private UserProfile friend; // quem recebeu a solicitação
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime acceptedAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime acceptedAt;
 
-    @Enumerated(EnumType.STRING)
-    private ConnectionStatus status = ConnectionStatus.PENDING;
+	@Enumerated(EnumType.STRING)
+	private ConnectionStatus status = ConnectionStatus.PENDING;
 
-    private Boolean isFavorite = false;
-    private String notes;
+	private Boolean isFavorite = false;
+	private String notes;
+
+	public Connection(UserProfile initiator, UserProfile friend) {
+		this.initiator = initiator;
+		this.friend = friend;
+		this.status = ConnectionStatus.PENDING;
+		this.createdAt = LocalDateTime.now();
+	}
 }

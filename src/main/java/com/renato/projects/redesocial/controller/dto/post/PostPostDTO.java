@@ -1,4 +1,4 @@
-package com.renato.projects.redesocial.controller.dto;
+package com.renato.projects.redesocial.controller.dto.post;
 
 import java.util.List;
 

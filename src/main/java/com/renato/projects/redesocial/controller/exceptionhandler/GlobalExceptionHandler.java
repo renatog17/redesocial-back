@@ -1,5 +1,7 @@
 package com.renato.projects.redesocial.controller.exceptionhandler;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -12,6 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exception){
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
 		var erros = exception.getFieldErrors();
