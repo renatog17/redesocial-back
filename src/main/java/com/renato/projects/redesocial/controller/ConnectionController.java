@@ -12,6 +12,7 @@ import com.renato.projects.redesocial.controller.dto.connection.PostConnectionDT
 import com.renato.projects.redesocial.controller.dto.connection.ReadConnectionDTO;
 import com.renato.projects.redesocial.domain.Connection;
 import com.renato.projects.redesocial.service.ConnectionService;
+import com.renato.projects.redesocial.service.NotificationService;
 
 @RestController
 @RequestMapping("/connection")

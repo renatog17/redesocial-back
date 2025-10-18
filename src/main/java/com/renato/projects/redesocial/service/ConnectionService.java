@@ -13,25 +13,37 @@ import com.renato.projects.redesocial.repository.ConnectionRepository;
 @Service
 public class ConnectionService {
 
-	ConnectionRepository connectionRepository;
-	UserProfileService userProfileService;
-	UserAccountService userAccountService;
+	private ConnectionRepository connectionRepository;
+	private UserProfileService userProfileService;
+	private UserAccountService userAccountService;
+	private NotificationService notificationService;
 	
 	public ConnectionService(
 			ConnectionRepository connectionRepository, 
 			UserProfileService userProfileService,
-			UserAccountService userAccountService) {
+			UserAccountService userAccountService,
+			NotificationService notificationService) {
 		super();
 		this.connectionRepository = connectionRepository;
 		this.userProfileService = userProfileService;
 		this.userAccountService = userAccountService;
+		this.notificationService = notificationService;
 	}
 	
 	public void postConnection(PostConnectionDTO postConnectionDTO) {
 		UserProfile userProfileTarget = userProfileService.findByid(postConnectionDTO.idTarget());
 		UserProfile userCurrent = userAccountService.getCurrentUserProfile();
+		
+		
+		
 		Connection connection = new Connection(userCurrent, userProfileTarget);
-		connectionRepository.save(connection);		
+		connectionRepository.save(connection);	
+		
+		FriendRequestDTO request = new FriendRequestDTO(userCurrent.getUserAccount().getUsername());
+		notificationService.sendFriendRequest(
+                userProfileTarget.getUserAccount().getUsername(),
+                request
+        );
 	}
 
 	public Connection getConnection(Long id) {
