@@ -1,6 +1,7 @@
 package com.renato.projects.redesocial.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
-	private LocalDate date;
+	private LocalDateTime createdAt;
 	private String content;
 	private Long likes;
 	@ManyToOne
@@ -44,6 +45,7 @@ public class Post {
 		this.content = content;
 		this.likes = 0L;
 		this.images = new ArrayList<Image>();
+		this.createdAt = LocalDateTime.now();
 		if (imgs != null) {
 	        for (String url : imgs) {
 	            Image image = new Image();

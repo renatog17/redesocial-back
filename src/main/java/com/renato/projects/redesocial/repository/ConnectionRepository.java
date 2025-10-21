@@ -14,4 +14,8 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
 	Optional<Connection> findByInitiatorIdAndFriendId(Long initiatorId, Long friendId);
 
 	List<Connection> findByFriendAndStatus(UserProfile friend, ConnectionStatus status);
+	
+	List<Connection> findByInitiatorId(Long id);
+
+	List<Connection> findByFriendId(Long id);
 }

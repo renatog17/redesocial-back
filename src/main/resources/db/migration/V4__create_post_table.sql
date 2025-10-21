@@ -7,7 +7,7 @@ CREATE TABLE public.post
         MAXVALUE 9223372036854775807
         CACHE 1
     ),
-    date date,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
     likes integer DEFAULT 0,
     content character varying(5000) COLLATE pg_catalog."default",
     user_profile_id bigint,
