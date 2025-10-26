@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.renato.projects.redesocial.controller.dto.auth.AuthDTO;
+import com.renato.projects.redesocial.controller.dto.userprofile.ReadUserProfileDTO;
 import com.renato.projects.redesocial.security.service.TokenService;
 import com.renato.projects.redesocial.service.AuthService;
 
@@ -36,13 +37,14 @@ public class AuthController {
 	public ResponseEntity<?> login(@RequestBody AuthDTO authDTO, HttpServletResponse response) {
 		System.out.println("login");
 		String token = authService.login(authDTO).token();
+		ReadUserProfileDTO userAuthenticated = authService.getUserAuthenticated(authDTO.userName());
+		//preciso garantir que esse user profile seja retornado apenas se houver token
 		ResponseCookie cookie = ResponseCookie.from("token", token)
 				.httpOnly(true)
 				.secure(true) // true se estiver em HTTPS; FORTE CANDIDATO A IR PARA PROFILE
 				.sameSite("Lax") // ou "Strict" para mais proteção
 				.path("/").maxAge(Duration.ofHours(2)).build();
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
-
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(userAuthenticated);
 	}
 
 	@GetMapping("/check")

@@ -21,8 +21,6 @@ public class PostController {
 
 	private PostService postService;
 	
-	
-	
 	public PostController(PostService postService) {
 		super();
 		this.postService = postService;

@@ -3,6 +3,7 @@ package com.renato.projects.redesocial.service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.renato.projects.redesocial.controller.dto.userprofile.ReadPrivateUserProfileDTO;
@@ -33,7 +34,7 @@ public class UserProfileService {
 		return userProfileRepository.findById(id).orElseThrow( () -> new NoSuchElementException("User not found"));
 	}
 	
-	public ReadUserProfileDTO findByNickname(String nickname) {
+	public ResponseEntity<?> findByNickname(String nickname) {
 	    UserProfile targetUserProfile = userProfileRepository.findByNickname(nickname)
 	            .orElseThrow(() -> new NoSuchElementException("User not found"));
 	    UserProfile currentUserProfile = userAccountService.getCurrentUserProfile();
@@ -45,21 +46,19 @@ public class UserProfileService {
 	    }
 	    
 	    if (targetUserProfile.getVisibility() == Visibility.PUBLIC) {
-	    	ReadPrivateUserProfileDTO readPrivateUserProfileDTO = new ReadPrivateUserProfileDTO(targetUserProfile);
-	        return new ReadUserProfileDTO(targetUserProfile, readPrivateUserProfileDTO);
+	        return ResponseEntity.ok(new ReadUserProfileDTO(targetUserProfile));
 	    }
 	    
 	    if (targetUserProfile.getVisibility() == Visibility.FRIENDS_ONLY) {
 	        if (connectionOptional.isEmpty()) {
-	            return new ReadUserProfileDTO(targetUserProfile, null);
+	        	return ResponseEntity.ok(new ReadPrivateUserProfileDTO(targetUserProfile));
 	        }
 	        Connection connection = connectionOptional.get();
 	        if(connection.getStatus() == ConnectionStatus.PENDING)
-	        	return new ReadUserProfileDTO(targetUserProfile, null);
+	        	return ResponseEntity.ok(new ReadPrivateUserProfileDTO(targetUserProfile));
 	        }else {
-	        	ReadPrivateUserProfileDTO readPrivateUserProfileDTO = new ReadPrivateUserProfileDTO(targetUserProfile);
-	        	return new ReadUserProfileDTO(targetUserProfile, readPrivateUserProfileDTO);
+	        	return ResponseEntity.ok(new ReadUserProfileDTO(targetUserProfile));
 	    }
-	    return new ReadUserProfileDTO(targetUserProfile, null);
+	    return ResponseEntity.ok(new ReadPrivateUserProfileDTO(targetUserProfile));
 	}
 }

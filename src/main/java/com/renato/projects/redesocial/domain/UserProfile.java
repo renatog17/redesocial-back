@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.renato.projects.redesocial.controller.dto.userprofile.ReadPrivateUserProfileDTO;
+import com.renato.projects.redesocial.controller.dto.userprofile.ReadUserProfileDTO;
 import com.renato.projects.redesocial.domain.enums.Gender;
 import com.renato.projects.redesocial.domain.enums.Visibility;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -60,7 +63,7 @@ public class UserProfile {
 	@OneToOne
 	@JoinColumn(name = "user_account_id", unique = true)
 	private UserAccount userAccount;
-	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Post> posts;
 
 	public UserProfile(String name, String nickname, LocalDate birthDate, Gender gender, UserAccount userAccount) {
@@ -71,5 +74,14 @@ public class UserProfile {
 		this.userAccount = userAccount;
 		this.active = true;
 		this.visibility = Visibility.PUBLIC;
+	}
+	
+	public ReadUserProfileDTO toReadUserProfileDTO() {
+		
+		return new ReadUserProfileDTO(this);
+	}
+	
+	public ReadPrivateUserProfileDTO toReadPrivateUserProfileDTO() {
+		return new ReadPrivateUserProfileDTO(this);
 	}
 }

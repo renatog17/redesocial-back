@@ -42,7 +42,7 @@ public class ConnectionController {
 	}
 	
 	@GetMapping("/invites")
-	public ResponseEntity<?> getPendingConnection(){
+	public ResponseEntity<?> getPendingConnections(){
 		List<Connection> connections = connectionService.getPendingConnections();
 		return ResponseEntity.ok(
 				connections.stream().map(connection -> new ReadConnectionInitiatorDTO(connection))
