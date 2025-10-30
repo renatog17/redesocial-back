@@ -34,7 +34,6 @@ public class S3Service {
     @PostConstruct
     public void init() {
         checkBucketAccess();
-        listFiles();
     }
     public void uploadFile(String key, File file) {
         s3Client.putObject(
@@ -67,30 +66,6 @@ public class S3Service {
             System.err.println("Failed to access bucket: " + e.getMessage());
             return false;
         }
-    }
-    
-    public List<String> listFiles() {
-        List<String> files = new ArrayList<>();
-        try {
-            ListObjectsV2Request request = ListObjectsV2Request.builder()
-                    .bucket(getBucketName())
-                    .build();
-
-            ListObjectsV2Response result = s3Client.listObjectsV2(request);
-
-            for (S3Object obj : result.contents()) {
-                files.add(obj.key());
-                System.out.println("File found: " + obj.key() + " (" + obj.size() + " bytes)");
-            }
-
-            if (files.isEmpty()) {
-                System.out.println("No files found in bucket: " + getBucketName());
-            }
-
-        } catch (S3Exception e) {
-            System.err.println("Error listing files: " + e.awsErrorDetails().errorMessage());
-        }
-        return files;
     }
 
 	public String getBucketName() {

@@ -31,6 +31,7 @@ public class ConnectionController {
 
 	@PostMapping
 	public ResponseEntity<?> postConnection(@RequestBody PostConnectionDTO postConnectionDTO){
+		System.out.println("post connection aqui");
 		connectionService.postConnection(postConnectionDTO);
 		return ResponseEntity.ok().build();
 	}

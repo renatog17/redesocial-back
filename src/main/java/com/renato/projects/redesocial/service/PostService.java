@@ -65,4 +65,10 @@ public class PostService {
 		return posts.stream().map(ReadPostDTO::new).collect(Collectors.toList());
 	}
 
+
+	public Post getPost(Long postId) {
+		return postRepository.findById(postId).orElseThrow();
+		
+	}
+
 }
