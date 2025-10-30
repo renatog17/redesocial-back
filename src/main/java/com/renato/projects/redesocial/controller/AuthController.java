@@ -6,6 +6,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.renato.projects.redesocial.controller.dto.auth.AuthDTO;
 import com.renato.projects.redesocial.controller.dto.userprofile.ReadUserProfileDTO;
+import com.renato.projects.redesocial.domain.UserAccount;
 import com.renato.projects.redesocial.security.service.TokenService;
 import com.renato.projects.redesocial.service.AuthService;
 
@@ -48,13 +51,18 @@ public class AuthController {
 	}
 
 	@GetMapping("/check")
-	public ResponseEntity<Void> check(@CookieValue(name = "token", required = false) String token) {
+	public ResponseEntity<?> check(@CookieValue(name = "token", required = false) String token) {
 		System.out.println("check");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	UserAccount principal = (UserAccount) auth.getPrincipal();
+    	ReadUserProfileDTO readUserProfileDTO = new ReadUserProfileDTO(principal.getProfile());
+		
 		if (token != null && !token.isEmpty()) {
 			String subject = tokenService.validateToken(token);
 
 			if (!subject.isEmpty()) {
-				return ResponseEntity.ok().build();
+				return ResponseEntity.ok(readUserProfileDTO);
 			}
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

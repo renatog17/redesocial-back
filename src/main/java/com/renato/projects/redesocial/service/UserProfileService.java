@@ -34,6 +34,10 @@ public class UserProfileService {
 		return userProfileRepository.findById(id).orElseThrow( () -> new NoSuchElementException("User not found"));
 	}
 	
+	public void save(UserProfile userProfile) {
+		userProfileRepository.save(userProfile);
+	}
+	
 	public ResponseEntity<?> findByNickname(String nickname) {
 	    UserProfile targetUserProfile = userProfileRepository.findByNickname(nickname)
 	            .orElseThrow(() -> new NoSuchElementException("User not found"));

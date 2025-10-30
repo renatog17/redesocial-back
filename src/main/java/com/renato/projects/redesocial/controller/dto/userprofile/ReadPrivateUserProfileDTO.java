@@ -7,6 +7,7 @@ import com.renato.projects.redesocial.controller.dto.post.ReadPostDTO;
 import com.renato.projects.redesocial.domain.UserProfile;
 
 public record ReadPrivateUserProfileDTO(
+		//aqui pode ser retornado o nickname tbm
 		String bio,
 		List<ReadPostDTO> posts
 		) {

@@ -37,6 +37,7 @@ public class AuthService {
 	}
 	
 	public ReadUserProfileDTO getUserAuthenticated(String userName) {
+		//não é possível pegar o usuário do contexto pois nesse ponto, ainda não há usuário logado
 		UserAccount userAccount = (UserAccount) userAccountRepository.findByUserName(userName).orElseThrow(() -> new NoSuchElementException());
 		UserProfile userProfile = userAccount.getProfile();
 		return new ReadUserProfileDTO(userProfile);

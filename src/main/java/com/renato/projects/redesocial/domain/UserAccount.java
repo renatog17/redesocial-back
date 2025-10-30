@@ -36,7 +36,7 @@ public class UserAccount implements UserDetails {
 	@JoinColumn(name = "email_verification_id", referencedColumnName = "id")
 	private EmailVerification emailVerification;
 	private Boolean confirmacaoEmail;
-	@OneToOne(mappedBy = "userAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "userAccount", cascade = CascadeType.ALL)
 	private UserProfile profile;
 
 	public EmailVerification getEmailVerification() {
