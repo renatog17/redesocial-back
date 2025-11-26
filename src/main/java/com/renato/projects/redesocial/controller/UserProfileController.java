@@ -43,7 +43,7 @@ public class UserProfileController {
 	
 	@PostMapping("/photo")
 	@Transactional
-	public void uploadProfilePhoto(@RequestParam("file") MultipartFile file) throws IOException{
+	public ResponseEntity<?> uploadProfilePhoto(@RequestParam("file") MultipartFile file) throws IOException{
 		File tempFile = convertToFile(file);
 		String uniqueId = UUID.randomUUID().toString();
 		UserProfile currentUserProfile = userAccountService.getCurrentUserProfile();
@@ -54,6 +54,7 @@ public class UserProfileController {
 	    
 	    s3Service.uploadFile(key, tempFile);
 	    tempFile.delete();
+	    return ResponseEntity.ok(currentUserProfile.getPhotoUrl());
 	}
 	
 	private File convertToFile(MultipartFile multipartFile) throws IOException {

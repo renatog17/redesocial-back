@@ -1,6 +1,7 @@
 package com.renato.projects.redesocial.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,12 +60,18 @@ public class UserProfile {
     // conexões que o usuário recebeu
     @OneToMany(mappedBy = "friend", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Connection> connectionsReceived = new HashSet<>();
-    
 	@OneToOne
 	@JoinColumn(name = "user_account_id", unique = true)
 	private UserAccount userAccount;
 	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Post> posts;
+	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
+	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PostLike> like = new ArrayList<PostLike>();
+	@OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Visualization> visualizations = new ArrayList<Visualization>();
+
 
 	public UserProfile(String name, String nickname, LocalDate birthDate, Gender gender, UserAccount userAccount) {
 		this.name = name;

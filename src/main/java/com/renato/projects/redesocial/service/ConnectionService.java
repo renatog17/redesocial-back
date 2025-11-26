@@ -1,5 +1,6 @@
 package com.renato.projects.redesocial.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -72,5 +73,6 @@ public class ConnectionService {
 				.findById(acceptConnectionDTO.id()).orElseThrow(() -> new NoSuchElementException("Conexao nao encontrada"));
 		
 		connection.setStatus(ConnectionStatus.ACCEPTED);
+		connection.setAcceptedAt(LocalDateTime.now());
 	}
 }

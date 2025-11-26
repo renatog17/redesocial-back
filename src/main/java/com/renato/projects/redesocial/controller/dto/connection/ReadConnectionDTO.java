@@ -7,9 +7,13 @@ import com.renato.projects.redesocial.domain.enums.ConnectionStatus;
 
 public record ReadConnectionDTO(Long id,
 		LocalDateTime acceptedAt,
-		ConnectionStatus status) {
+		ConnectionStatus status,
+		String userNameInitiator,
+		String userNameTarget) {
 
 	public ReadConnectionDTO(Connection connection) {
-		this(connection.getId(), connection.getAcceptedAt(), connection.getStatus());
+		this(connection.getId(), connection.getAcceptedAt(), connection.getStatus(), 
+				connection.getInitiator().getNickname(),
+				connection.getFriend().getNickname());
 	}
 }

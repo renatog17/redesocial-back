@@ -40,11 +40,18 @@ public class Post {
 	private UserProfile userProfile;
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Image> images;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Comment> comments = new ArrayList<Comment>();
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<PostLike> likesList = new ArrayList<PostLike>();
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Visualization> visualization = new ArrayList<Visualization>();
 	
 	public Post(String content, List<String> imgs) {
 		this.content = content;
 		this.likes = 0L;
 		this.images = new ArrayList<Image>();
+		this.comments = new ArrayList<Comment>();
 		this.createdAt = LocalDateTime.now();
 		if (imgs != null) {
 	        for (String url : imgs) {

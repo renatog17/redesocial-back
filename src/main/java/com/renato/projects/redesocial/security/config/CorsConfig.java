@@ -19,7 +19,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173")
+                    .allowedOrigins("http://localhost:5173", "http://localhost:5174")
                     //verificar se utilizando o localhost:3000, funciona em produção tbm
                 	//.allowedOrigins("http://localhost:3000")
                     .allowedMethods("PATCH","GET", "POST", "PUT", "DELETE", "OPTIONS")

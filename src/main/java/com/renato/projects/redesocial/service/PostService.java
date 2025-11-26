@@ -2,6 +2,7 @@ package com.renato.projects.redesocial.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
@@ -14,8 +15,11 @@ import com.renato.projects.redesocial.domain.Connection;
 import com.renato.projects.redesocial.domain.Post;
 import com.renato.projects.redesocial.domain.UserAccount;
 import com.renato.projects.redesocial.domain.UserProfile;
+import com.renato.projects.redesocial.domain.enums.ConnectionStatus;
 import com.renato.projects.redesocial.repository.ConnectionRepository;
 import com.renato.projects.redesocial.repository.PostRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PostService {
@@ -42,6 +46,7 @@ public class PostService {
 	}
 
 
+	@Transactional
 	public List<ReadPostDTO> getPosts() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserAccount user = (UserAccount) authentication.getPrincipal();
@@ -51,14 +56,14 @@ public class PostService {
 		List<Post> posts = new ArrayList<Post>();
 		
 		List<Connection> findByIniatorId = connectionRepository.findByInitiatorId(profile.getId());
-		
 		for (Connection connection : findByIniatorId) {
-			posts.addAll(connection.getFriend().getPosts());
+			if(connection.getStatus() == ConnectionStatus.ACCEPTED)
+				posts.addAll(connection.getFriend().getPosts());
 		}
-		
 		List<Connection> findByFriendId = connectionRepository.findByFriendId(profile.getId());
 		
 		for (Connection connection : findByFriendId) {
+			if(connection.getStatus() == ConnectionStatus.ACCEPTED)
 			posts.addAll(connection.getInitiator().getPosts());
 		}
 		
@@ -68,7 +73,9 @@ public class PostService {
 
 	public Post getPost(Long postId) {
 		return postRepository.findById(postId).orElseThrow();
-		
 	}
 
+	public Post findPostById(Long id) {
+		return postRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+	}
 }

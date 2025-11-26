@@ -28,6 +28,8 @@ import com.renato.projects.redesocial.service.PostService;
 import com.renato.projects.redesocial.service.UserAccountService;
 import com.renato.projects.redesocial.utils.MultPartFileToFile;
 
+import jakarta.transaction.Transactional;
+
 @RequestMapping("/post")
 @RestController
 public class PostController {
