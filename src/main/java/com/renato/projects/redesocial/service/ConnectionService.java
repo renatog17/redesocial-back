@@ -22,15 +22,13 @@ public class ConnectionService {
 	private ConnectionRepository connectionRepository;
 	private UserProfileService userProfileService;
 	private UserAccountService userAccountService;
-	private NotificationService notificationService;
 
 	public ConnectionService(ConnectionRepository connectionRepository, UserProfileService userProfileService,
-			UserAccountService userAccountService, NotificationService notificationService) {
+			UserAccountService userAccountService) {
 		super();
 		this.connectionRepository = connectionRepository;
 		this.userProfileService = userProfileService;
 		this.userAccountService = userAccountService;
-		this.notificationService = notificationService;
 	}
 
 	public void postConnection(PostConnectionDTO postConnectionDTO) {
@@ -39,9 +37,6 @@ public class ConnectionService {
 
 		Connection connection = new Connection(userCurrent, userProfileTarget);
 		connectionRepository.save(connection);
-
-		FriendRequestDTO request = new FriendRequestDTO(userCurrent.getUserAccount().getUsername());
-		notificationService.sendFriendRequest(userProfileTarget.getUserAccount().getUsername(), request);
 	}
 
 	public Connection getConnection(Long id) {
